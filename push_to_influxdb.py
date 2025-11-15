@@ -49,7 +49,7 @@ async def push_to_influxdb(interval=60):
 
             sleep_interval = interval
             if system_power <= 20:
-                sleep_interval = min(interval, 1200) # check less often at night
+                sleep_interval = max(interval, 1200) # check less often at night
             await asyncio.sleep(sleep_interval)
 
 if __name__ == "__main__":
