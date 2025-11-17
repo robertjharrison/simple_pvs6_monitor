@@ -5,6 +5,7 @@ import aiohttp
 import logging
 import json
 import datetime
+import day_night_checker
 
 '''
 Initial version drawing heavily from: https://github.com/SunStrong-Management/pypvs
@@ -37,6 +38,9 @@ class PVS:
         ''' Initialize the PVS device by getting serial number and logging in '''
         await self._get_serial_number()
         await self._login()
+
+    def log(self, message):
+        logging.info(message)
 
     async def post(self, data, headers=""):
         '''
