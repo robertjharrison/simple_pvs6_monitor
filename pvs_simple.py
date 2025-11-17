@@ -43,7 +43,7 @@ class PVS:
         Make a POST request to the PVS device
         '''
         logging.debug(f"Post:url={self._url} data={data} headers={headers} cookies={self._cookies}")
-        MAX_ATTEMPTS = 5
+        MAX_ATTEMPTS = 3
         for attempts in range(MAX_ATTEMPTS):
             async with self.session.post(self._url, data=data, headers=headers, cookies=self._cookies, ssl=False) as response:
                 if response.status == 200:
@@ -51,12 +51,10 @@ class PVS:
                     response_json = await response.json()
                     logging.debug(f"Response: {response_json}")
                     return response_json
-                elif response.status in [400, 401]:
-                    logging.error(f"Bad name/match or malformed request. Status code: {response.status}")
-                    raise RuntimeError("Bad name/match or malformed request")
-                elif response.status == 500:
-                    logging.error("Unauthorized access (missing cookie). Status code: {response.status}. Retrying login!")
-                    self._login()
+                else:
+                    logging.error("Possible unauthorized access (missing cookie) or possible malformed request or server error. Status code: {response.status}. Retrying login!")
+                    await asyncio.sleep(30) 
+                    await self._login()
                     continue
         else:
             logging.error("Server error after retrying login. Aborting.")
