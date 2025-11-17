@@ -7,7 +7,7 @@ Also included are a basic script for pushing data to `influxdb` and a `grafana` 
 
 Requirements:
 * For core functionality --- `pip install aiohttp`
-* For pushing to influx --- `pip install influxdb_client`
+* For pushing to influx --- `pip install influxdb_client suntimes pytz`
 
 ![grafana dashboard](grafana-dashboard-snapshot.png)
 

@@ -9,7 +9,7 @@ import pvs_simple
 import influxdb_client
 from influxdb_client.client.write_api import SYNCHRONOUS
 
-# Location of device for day/night checking
+# Location of device for day/night checking 
 lat =  41.12255231172327
 lon = -72.33433855074045
 
@@ -58,8 +58,8 @@ def record_device(timestamp, device, energy, power, temp):
     write_api.write(bucket=bucket, org=org, record=p)
 
 async def push_to_influxdb(interval=300):
-    '''                                                                                                                                    Template for data
-
+    '''                                                                              Template for data
+    _measurement = PVS6
     for device in livedata and all inverters
       tag device
         field kWh lifetime energy
