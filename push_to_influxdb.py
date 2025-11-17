@@ -1,4 +1,5 @@
 import os
+import sys
 import asyncio
 import aiohttp
 import pvs_simple
@@ -39,6 +40,7 @@ async def push_to_influxdb(interval=60):
             temp = 0.0
             record_device(timestamp, device, energy, power, temp)            
             print(timestamp, f"Recorded system: kWh={energy} kW={power}")
+            sys.stdout.flush()
             system_power = power
 
             inverters = pvs_simple.Inverters(data)
@@ -48,8 +50,8 @@ async def push_to_influxdb(interval=60):
                 record_device(timestamp, device, energy, power, temp)
 
             sleep_interval = interval
-            if system_power <= 20:
-                sleep_interval = max(interval, 1200) # check less often at night
+            # if system_power <= 0.020: # 20W
+            #     sleep_interval = max(interval, 1200) # check less often at night
             await asyncio.sleep(sleep_interval)
 
 if __name__ == "__main__":
