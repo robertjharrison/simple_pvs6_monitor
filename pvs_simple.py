@@ -5,7 +5,6 @@ import aiohttp
 import logging
 import json
 import datetime
-import day_night_checker
 
 '''
 Initial version drawing heavily from: https://github.com/SunStrong-Management/pypvs
